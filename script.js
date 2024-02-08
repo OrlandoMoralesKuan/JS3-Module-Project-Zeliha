@@ -1,6 +1,8 @@
 // Function to generate episode code like  S01E01
 function generateEpisodeCode(season, number) {
-  return `S${season.toString().padStart(2, "0")}E${number.toString().padStart(2, "0")}`;
+  return `S${season.toString().padStart(2, "0")}E${number
+    .toString()
+    .padStart(2, "0")}`;
 }
 
 function renderAllEpisodes() {
@@ -9,14 +11,19 @@ function renderAllEpisodes() {
   const root = document.getElementById("root");
 
   episodes.forEach((episode) => {
-    const episodeTemplate = document.getElementById("episode-template").content.cloneNode(true);
+    const episodeTemplate = document
+      .getElementById("episode-template")
+      .content.cloneNode(true);
 
     // episode details
     const episodeName = episodeTemplate.querySelector(".episode-name");
     episodeName.textContent = episode.name;
 
     const episodeCode = episodeTemplate.querySelector(".episode-code");
-    episodeCode.textContent = generateEpisodeCode(episode.season, episode.number);
+    episodeCode.textContent = generateEpisodeCode(
+      episode.season,
+      episode.number
+    );
 
     const episodeImage = episodeTemplate.querySelector(".episode-image");
     episodeImage.src = episode.image.medium;
@@ -43,5 +50,5 @@ function renderAllEpisodes() {
 
   addFooter();
 }
-
+//This comment is proving if the push it working => Orlando//
 renderAllEpisodes();
