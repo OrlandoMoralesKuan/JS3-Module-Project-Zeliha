@@ -2,7 +2,7 @@
   color: red;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
-  gap: 5em; /* Gap between episode cards */
+  gap: 1em; /* Gap between episode cards */
   margin: 50px 80px;
 }
 
@@ -26,9 +26,10 @@
 }
 
 .episode-name {
+  display: block;
+  align-self: stretch;
   background-color: white;
-  padding: 20px 50px; /* Optional: Add padding for better appearance */
-  margin: 0 20px;
+  padding: 20px 10px; /* Optional: Add padding for better appearance */
   border: 1px solid #ccc; /* Add a border around the episode name */
   border-radius: 8px;
   text-align: center; /* Center the text horizontally */
