@@ -50,3 +50,23 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+
+@media screen and (max-width: 768px) {
+  #root {
+    grid-template-columns: repeat(1, 1fr); 
+    margin: 20px; 
+  }
+
+  .episode-card {
+    padding: 20px; 
+  }
+
+  .episode-image {
+    margin: 20px auto; 
+  }
+
+ .episode-name {
+    padding: 10px; 
+  }
+}
