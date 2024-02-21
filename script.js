@@ -1,4 +1,3 @@
-// Function to generate episode code like  S01E01
 function generateEpisodeCode(season, number) {
   return `S${season.toString().padStart(2, "0")}E${number
     .toString()
@@ -7,39 +6,69 @@ function generateEpisodeCode(season, number) {
 
 function renderAllEpisodes() {
   const episodes = getAllEpisodes();
-
   const root = document.getElementById("root");
 
-  episodes.forEach((episode) => {
-    const episodeTemplate = document
-      .getElementById("episode-template")
-      .content.cloneNode(true);
+  const searchContainer = document.createElement("div");
+  searchContainer.innerHTML = `<input type="text" id="search-input" placeholder="Search episodes..." />
+<span id="episode-count"></span>`;
 
-    // episode details
-    const episodeName = episodeTemplate.querySelector(".episode-name");
-    episodeName.textContent = episode.name;
+  document.body.insertBefore(searchContainer, root);
 
-    const episodeCode = episodeTemplate.querySelector(".episode-code");
-    episodeCode.textContent = generateEpisodeCode(
-      episode.season,
-      episode.number
-    );
+  function renderEpisodes(episodesToRender) {
+    root.innerHTML = "";
 
-    const episodeImage = episodeTemplate.querySelector(".episode-image");
-    episodeImage.src = episode.image.medium;
-    episodeImage.alt = episode.name;
+    episodesToRender.forEach((episode) => {
+      const episodeTemplate = document
+        .getElementById("episode-template")
+        .content.cloneNode(true);
 
-    const episodeSummary = episodeTemplate.querySelector(".episode-summary");
-    episodeSummary.innerHTML = episode.summary;
+      const episodeName = episodeTemplate.querySelector(".episode-name");
+      episodeName.textContent = `${episode.name} - ${generateEpisodeCode(
+        episode.season,
+        episode.number
+      )}`;
 
-    root.appendChild(episodeTemplate);
-  });
+      const episodeImage = episodeTemplate.querySelector(".episode-image");
+      episodeImage.src = episode.image.medium;
+      episodeImage.alt = episode.name;
+
+      const episodeSummary = episodeTemplate.querySelector(".episode-summary");
+      episodeSummary.innerHTML = episode.summary;
+
+      root.appendChild(episodeTemplate);
+    });
+
+    const episodeCount = document.getElementById("episode-count");
+    episodeCount.innerText = `Total Episodes: ${episodesToRender.length}`;
+  }
+
+  renderEpisodes(episodes);
+
+  function filterEpisodes() {
+    const searchTerm = document.getElementById("search-input").value;
+    const filteredEpisodes = episodes.filter((episode) => {
+      const summary = episode.summary.toLowerCase();
+      const name = episode.name.toLowerCase();
+      const search = searchTerm.toLowerCase();
+      return summary.includes(search) || name.includes(search);
+    });
+    return filteredEpisodes;
+  }
+
+  function updateDisplayedEpisodes() {
+    const filteredEpisodes = filterEpisodes();
+    renderEpisodes(filteredEpisodes);
+  }
+
+  const searchInput = document.getElementById("search-input");
+  searchInput.addEventListener("input", updateDisplayedEpisodes);
 
   function addFooter() {
     const footer = document.createElement("footer");
     const attributionText = document.createTextNode("Data provided by ");
     const tvmazeLink = document.createElement("a");
     tvmazeLink.href = "https://www.tvmaze.com/";
+
     tvmazeLink.textContent = "TVMaze.com";
     tvmazeLink.target = "_blank";
 
@@ -50,5 +79,5 @@ function renderAllEpisodes() {
 
   addFooter();
 }
-//This comment is proving if the push it working => Orlando//
+
 renderAllEpisodes();
