@@ -14,12 +14,15 @@ function renderAllEpisodes() {
     // episode details
     const episodeCode = `S${episode.season.toString().padStart(2, "0")}E${episode.number.toString().padStart(2, "0")}`;
     const episodeName = episodeTemplate.querySelector(".episode-name");
-    episodeName.textContent = `${episode.name} ${episodeCode}`;
-
+    episodeName.textContent = `${episode.name} - ${episodeCode}`;
     const episodeImage = episodeTemplate.querySelector(".episode-image");
-    episodeImage.src = episode.image.medium;
-    episodeImage.alt = episode.name;
-
+    if (episode.image && episode.image.medium) {
+      episodeImage.src = episode.image.medium;
+      episodeImage.alt = episode.name;
+    } else {
+      episodeImage.src = "placeholder.jpg";
+      episodeImage.alt = "Image not available";
+    }
     const episodeSummary = episodeTemplate.querySelector(".episode-summary");
     episodeSummary.innerHTML = episode.summary;
 
